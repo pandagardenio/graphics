@@ -1,0 +1,9 @@
+.bar-chart__controls {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.MuiTypography-root.bar-chart__controls-title {
+    margin-bottom: 16px;
+    text-align: center;
+}
