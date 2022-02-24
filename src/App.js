@@ -7,6 +7,7 @@ import CalendarChart from './components/CalendarChart';
 import PieChart from './components/PieChart';
 import RadarChart from './components/RadarChart';
 import RadialBarChart from './components/RadialBarChart';
+import config from './config';
 
 function Chart(props) {
     if (props.activeSection === 'Bar Chart') {
@@ -41,6 +42,7 @@ function App() {
 
     return (
         <Dashboard section={activeSection} onSectionChange={handleOnSectionChange}>
+            <p>{config.apiUrl}</p>
             <div className="chart">
                 <Chart activeSection={activeSection}/>
             </div>
