@@ -1,64 +1,15 @@
+import { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar'
-import Chip from '@mui/material/Chip';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
-import Chart from './Chart';
-
-import data from '../data/BarChart.json';
+import Data from '../Data';
+import Chart from '../Chart';
+import BarChartControls from './BarChartControls';
 
 import './BarChart.css';
-import { useState } from 'react';
-
-function LayoutChips(props) {
-    const handleOnClick = (layout) => {
-        props.onLayoutChange(layout);
-    };
-
-    const getChipColor = (layout) => {
-        if (layout === props.activeLayout) {
-            return 'primary';
-        }
-        return 'default';
-    };
-
-    return (
-        <div>
-            <Typography className="bar-chart__controls-title" component="h3">Layout</Typography>
-            <Chip color={getChipColor('vertical')} label="Vertical" onClick={() => handleOnClick('vertical')}/>
-            <Chip color={getChipColor('horizontal')} label="Horizontal" onClick={() => handleOnClick('horizontal')}/>
-        </div>
-    )
-}
-
-function GroupModeChips(props) {
-    const handleOnClick = (groupMode) => {
-        props.onGroupModeChange(groupMode);
-    };
-
-    const getChipColor = (groupMode) => {
-        if (groupMode === props.activeGroupMode) {
-            return 'primary';
-        }
-        return 'default';
-    };
-
-    return (
-        <div>
-            <Typography className="bar-chart__controls-title" component="h3">Group mode</Typography>
-            <Chip color={getChipColor('stacked')} label="Stacked" onClick={() => handleOnClick('stacked')}/>
-            <Chip color={getChipColor('grouped')} label="Grouped" onClick={() => handleOnClick('grouped')}/>
-        </div>
-    )
-}
-
-function BarChartControls(props) {
-    return (
-        <div className="bar-chart__controls">
-            <LayoutChips activeLayout={props.activeLayout} onLayoutChange={props.onLayoutChange}/>
-            <GroupModeChips activeGroupMode={props.activeGroupMode} onGroupModeChange={props.onGroupModeChange}/>
-        </div>
-    )
-}
+import config from '../../config';
 
 function BasicBarChart(props) {
     return (
@@ -143,7 +94,7 @@ function BasicBarChartWithAxis(props) {
     );
 }
 
-function BarChart() {
+function Graphic(props) {
     const [activeLayout, setActiveLayout] = useState('vertical');
     const [activeGroupMode, setActiveGroupMode] = useState('stacked');
 
@@ -163,9 +114,37 @@ function BarChart() {
                 activeGroupMode={activeGroupMode}
                 onGroupModeChange={handleGroupModeChange}
             />
-            <BasicBarChart data={data} layout={activeLayout} groupMode={activeGroupMode}/>
-            <BasicBarChartWithAxis data={data} layout={activeLayout} groupMode={activeGroupMode}/>
+            <BasicBarChart data={props.data} layout={activeLayout} groupMode={activeGroupMode}/>
+            <BasicBarChartWithAxis data={props.data} layout={activeLayout} groupMode={activeGroupMode}/>
         </div>
+    );
+}
+
+function BarChart() {
+    const [activeTab, setActiveTab] = useState(0);
+    const [data, setData] = useState(null);
+
+    const handleTabChange = (_event, tab) => {
+        setActiveTab(tab);
+    };
+
+    useEffect(() => {
+        fetch(config.apiUrl + 'data/bar-chart')
+            .then(response => response.json())
+            .then(json => setData(json))
+    }, []);
+
+    return (
+        <>
+            <Box>
+                <Tabs value={activeTab} onChange={handleTabChange}>
+                    <Tab label="Data"/>
+                    <Tab label="Graphic"/>
+                </Tabs>
+            </Box>
+            {activeTab === 0 && <Data data={data}/>}
+            {activeTab === 1 && <Graphic data={data}/>}
+        </>
     );
 }
 

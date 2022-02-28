@@ -2,14 +2,13 @@ import { useState } from 'react';
 
 import Dashboard from './components/Dashboard/Dashboard';
 
-import BarChart from './components/BarChart';
-import CalendarChart from './components/CalendarChart';
-import PieChart from './components/PieChart';
-import RadarChart from './components/RadarChart';
-import RadialBarChart from './components/RadialBarChart';
-import config from './config';
+import BarChart from './components/BarChart/BarChart';
+import CalendarChart from './components/CalendarChart/CalendarChart';
+import PieChart from './components/PieChart/PieChart';
+import RadarChart from './components/RadarChart/RadarChart';
+import RadialBarChart from './components/RadialBarChart/RadialBarChart';
 
-function Chart(props) {
+function AppContent(props) {
     if (props.activeSection === 'Bar Chart') {
         return (
             <BarChart/>
@@ -42,10 +41,7 @@ function App() {
 
     return (
         <Dashboard section={activeSection} onSectionChange={handleOnSectionChange}>
-            <p>{config.apiUrl}</p>
-            <div className="chart">
-                <Chart activeSection={activeSection}/>
-            </div>
+            <AppContent activeSection={activeSection}/>
         </Dashboard>
     );
 }

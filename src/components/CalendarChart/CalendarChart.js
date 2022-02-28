@@ -1,8 +1,12 @@
+import { useEffect, useState } from 'react';
 import { ResponsiveCalendar } from '@nivo/calendar'
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
-import Chart from './Chart';
-
-import data from '../data/CalendarChart.json';
+import config from '../../config';
+import Chart from '../Chart';
+import Data from '../Data';
 
 function BasicCalendarChart(props) {
     return (
@@ -48,12 +52,40 @@ function BasicCalendarChartWithAxis(props) {
     );
 }
 
-function CalendarChart() {
+function Graphic(props) {
     return (
         <div>
-            <BasicCalendarChart data={data}/>
-            <BasicCalendarChartWithAxis data={data}/>
+            <BasicCalendarChart data={props.data}/>
+            <BasicCalendarChartWithAxis data={props.data}/>
         </div>
+    );
+}
+
+function CalendarChart() {
+    const [activeTab, setActiveTab] = useState(0);
+    const [data, setData] = useState(null);
+
+    const handleTabChange = (_event, tab) => {
+        setActiveTab(tab);
+    };
+
+    useEffect(() => {
+        fetch(config.apiUrl + 'data/calendar-chart')
+            .then(response => response.json())
+            .then(json => setData(json))
+    }, []);
+
+    return (
+        <>
+            <Box>
+                <Tabs value={activeTab} onChange={handleTabChange}>
+                    <Tab label="Data"/>
+                    <Tab label="Graphic"/>
+                </Tabs>
+            </Box>
+            {activeTab === 0 && <Data data={data}/>}
+            {activeTab === 1 && <Graphic data={data}/>}
+        </>
     );
 }
 
