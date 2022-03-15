@@ -2,18 +2,16 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-function DashboardSidebarItem(props) {
-    const handleOnClick = () => {
-        props.onClick(props.section);
-    };
+import { Link, useMatch } from "react-router-dom";
 
-    const selected = props.activeSection === props.section;
+function DashboardSidebarItem(props) {
+    const selected = !!useMatch(props.to);
     return (
-        <ListItemButton selected={selected} onClick={handleOnClick}>
-            <ListItemIcon>
-                {props.children}
-            </ListItemIcon>
-            <ListItemText primary={props.section} />
+        <ListItemButton selected={selected} component={Link} to={props.to}>
+                <ListItemIcon>
+                    {props.children}
+                </ListItemIcon>
+                <ListItemText primary={props.section} />
         </ListItemButton>
     )
 }

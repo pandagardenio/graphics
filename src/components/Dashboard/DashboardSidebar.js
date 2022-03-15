@@ -20,10 +20,6 @@ function DashboardSidebar(props) {
         dashboardSidebarClassName += ' dashboard-sidebar--open';
     }
 
-    const handleOnSectionClick = (section) => {
-        props.onSectionChange(section);
-    }
-
     return (
         <Drawer className={dashboardSidebarClassName} variant="permanent" open={props.open}>
             <Toolbar
@@ -36,37 +32,32 @@ function DashboardSidebar(props) {
             <Divider />
             <List component="nav">
                 <DashboardSidebarItem
-                    onClick={handleOnSectionClick}
-                    activeSection={props.section}
                     section="Bar Chart"
+                    to="/bar-chart"
                 >
                     <DashboardIcon />
                 </DashboardSidebarItem>
                 <DashboardSidebarItem
-                    onClick={handleOnSectionClick}
-                    activeSection={props.section}
                     section="Pie Chart"
+                    to="/pie-chart"
                 >
                     <ShoppingCartIcon />
                 </DashboardSidebarItem>
                 <DashboardSidebarItem
-                    onClick={handleOnSectionClick}
-                    activeSection={props.section}
                     section="Radar Chart"
+                    to="/radar-chart"
                 >
                     <PeopleIcon />
                 </DashboardSidebarItem>
                 <DashboardSidebarItem
-                    onClick={handleOnSectionClick}
-                    activeSection={props.section}
                     section="Radial Bar Chart"
+                    to="/radial-bar-chart"
                 >
                     <BarChartIcon />
                 </DashboardSidebarItem>
                 <DashboardSidebarItem
-                    onClick={handleOnSectionClick}
-                    activeSection={props.section}
                     section="Calendar Chart"
+                    to="/calendar-chart"
                 >
                     <LayersIcon />
                 </DashboardSidebarItem>

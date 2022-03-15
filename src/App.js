@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import Dashboard from './components/Dashboard/Dashboard';
 
@@ -7,30 +8,6 @@ import CalendarChart from './components/CalendarChart/CalendarChart';
 import PieChart from './components/PieChart/PieChart';
 import RadarChart from './components/RadarChart/RadarChart';
 import RadialBarChart from './components/RadialBarChart/RadialBarChart';
-
-function AppContent(props) {
-    if (props.activeSection === 'Bar Chart') {
-        return (
-            <BarChart/>
-        );
-    } else if (props.activeSection === 'Pie Chart') {
-        return (
-            <PieChart/>
-        );
-    } else if (props.activeSection === 'Radar Chart') {
-        return (
-            <RadarChart/>
-        );
-    } else if (props.activeSection === 'Radial Bar Chart') {
-        return (
-            <RadialBarChart/>
-        );
-    } else if (props.activeSection === 'Calendar Chart') {
-        return (
-            <CalendarChart/>
-        );
-    }
-}
 
 function App() {
     const [activeSection, setActiveSection] = useState('Bar Chart');
@@ -41,7 +18,13 @@ function App() {
 
     return (
         <Dashboard section={activeSection} onSectionChange={handleOnSectionChange}>
-            <AppContent activeSection={activeSection}/>
+            <Routes>
+                <Route path="/bar-chart" element={<BarChart/>}/>
+                <Route path="/pie-chart" element={<PieChart/>}/>
+                <Route path="/radar-chart" element={<RadarChart/>}/>
+                <Route path="/radial-bar-chart" element={<RadialBarChart/>}/>
+                <Route path="/calendar-chart" element={<CalendarChart/>}/>
+            </Routes>
         </Dashboard>
     );
 }
